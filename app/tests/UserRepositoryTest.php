@@ -18,7 +18,7 @@ final class UserRepositoryTest extends TestCase {
     }
 
     public function testBadCredentials(): void {
-        $username = 'jlaubert\'; -- ';
+        $username = 'jlaubert';
         $password = 'toto';
 
         $repository = new UserRepository();
@@ -26,7 +26,16 @@ final class UserRepositoryTest extends TestCase {
         $this->expectException(\RuntimeException::class);
 
         $user = $repository->findByLoginAndPassword($username, $password);
+    }
 
-        
+    public function testInjection(): void {
+        $username = 'jlaubert\'; -- ';
+        $password = 'toto';
+
+        $repository = new UserRepository();
+
+        $this->expectException(\RuntimeException::class);
+
+        $user = $repository->findByLoginAndPassword($username, $password);        
     }
 }

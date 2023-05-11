@@ -32,25 +32,31 @@ final class UserRepository implements RepositoryInterface {
      */
     public function findByLoginAndPassword(string $login, string $password): User {
         $sqlQuery = 'SELECT id, username, password FROM users WHERE ';
-        $sqlQuery .= 'username = \'' . $login . '\' AND ';
-        $sqlQuery .= 'password = PASSWORD(\'' . $password . '\');';
+        $sqlQuery .= 'username = ? AND ';
+        $sqlQuery .= 'password = PASSWORD(?);';
 
-        /**
-         * SELECT id, username, password FROM users WHERE 
-         * username = 'jlaubert' -- AND ...
-         */
-        echo $sqlQuery . "\n";
+        
         
         // Let's connect to RDBMS
         $mariaDB = new MariaDb();
         $connection = $mariaDB->getConnection();
 
+        // Prepare the query
+        $statement = $connection->prepare($sqlQuery);
+
+        // Bind properties
+        $statement->bind_param(
+            "ss",
+            $login,
+            $password
+        );
         // Send query to RDBMS
-        $result = $connection->execute_query($sqlQuery);
+        $statement->execute();
+        $result = $statement->get_result();
 
         if ($result) {
             $user = new User();
-            $row = $result->fetch_array();
+            $row = $result->fetch_assoc();
             if ($row) {
                 $user->setId($row['id']);
                 $user->setUsername($row['username']);
