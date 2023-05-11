@@ -14,6 +14,7 @@
 // Class loader
 require_once('./../vendor/autoload.php');
 
+// Setting imports
 use App\Http\Foundation\Http;
 
 $request = new Http();
