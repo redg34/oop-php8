@@ -2,3 +2,8 @@ logs/*
 database/*
 .env
 app/vendor
+
+# Specific Eclipse
+.buildpath
+.project
+.settings
