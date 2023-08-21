@@ -1,5 +1,8 @@
 <?php
 // PizzaBuilder.php
+namespace    App\Patterns\Creational\Builder;
+use App\Entities\Pizza;
+use App\Patterns\Creational\Factory\PizzaBuilderFactory;
 class PizzaBuilder {
      private $pizza;
  
